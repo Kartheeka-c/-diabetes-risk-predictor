@@ -1,49 +1,76 @@
-# Diabetes Risk Predictor — Streamlit Deployment Bundle
+# Diabetes Risk Predictor 🩺
 
-This folder is a self-contained deployment package: an `app.py` script plus
-the trained model artifacts (pickle files) it loads. No other files from the
-analysis notebook are required to run it.
+A machine learning web app that predicts the likelihood of diabetes based on
+diagnostic health measurements, built with **Logistic Regression** and
+deployed with **Streamlit**.
 
-## Contents
-- `app.py` — the Streamlit app
-- `logreg_model.pkl` — trained LogisticRegression model
-- `scaler.pkl` — fitted StandardScaler (feature scaling)
-- `imputer.pkl` — fitted SimpleImputer (median imputation for missing values)
-- `feature_names.pkl` — ordered list of the 8 input feature names
-- `metrics.csv` — test-set performance metrics, shown in the app's "About" panel
-- `requirements.txt` — Python package dependencies
+This project was built as part of a Logistic Regression assignment covering
+the full ML workflow: exploratory data analysis, preprocessing, model
+building, evaluation, interpretation, and deployment.
 
-## Option A: Run locally
+## 🔗 Live App
+👉 [Try it here](https://your-app-name.streamlit.app) <!-- replace with your actual Streamlit Cloud URL -->
 
-1. Open a terminal in this folder.
-2. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-3. Launch the app:
-   ```
-   streamlit run app.py
-   ```
-4. Streamlit will open the app in your browser (usually at `http://localhost:8501`).
+## 📊 Dataset
+[Pima Indians Diabetes Dataset](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
+— 768 patient records with 8 diagnostic features:
 
-## Option B: Deploy online (Streamlit Community Cloud) — free, gives you a shareable link
+| Feature | Description |
+|---|---|
+| Pregnancies | Number of times pregnant |
+| Glucose | Plasma glucose concentration |
+| BloodPressure | Diastolic blood pressure (mm Hg) |
+| SkinThickness | Triceps skin fold thickness (mm) |
+| Insulin | 2-hour serum insulin (mu U/mL) |
+| BMI | Body mass index |
+| DiabetesPedigreeFunction | Diabetes likelihood based on family history |
+| Age | Age in years |
 
-1. Create a GitHub repository (e.g. `diabetes-risk-predictor`) and push everything
-   in this folder to it (`app.py`, all four `.pkl` files, `requirements.txt`).
-   ```
-   git init
-   git add .
-   git commit -m "Initial deployment"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/diabetes-risk-predictor.git
-   git push -u origin main
-   ```
-2. Go to https://share.streamlit.io and sign in with GitHub.
-3. Click **"New app"**, select your repository, branch (`main`), and set the
-   main file path to `app.py`.
-4. Click **Deploy**. Streamlit Cloud will install `requirements.txt` and launch
-   the app automatically, giving you a public URL like:
-   `https://<your-app-name>.streamlit.app`
-5. Share that link — anyone can open it in a browser, no installation needed.
+Target: `Outcome` (1 = diabetes, 0 = no diabetes)
 
-That URL is what you'd submit as the "cloud link" for deployment.
+## 🧠 Model
+- **Algorithm**: Logistic Regression (scikit-learn)
+- **Preprocessing**: Disguised missing values (zeros in Glucose, BloodPressure,
+  SkinThickness, Insulin, BMI) imputed with median values, then standardized
+- **Train/test split**: 80/20, stratified by class
+
+### Test Set Performance
+| Metric | Score |
+|---|---|
+| Accuracy | 0.71 |
+| Precision | 0.60 |
+| Recall | 0.50 |
+| F1-score | 0.55 |
+| ROC-AUC | 0.81 |
+
+### Key Predictors
+Glucose and BMI are the strongest predictors of diabetes risk, followed by
+Pregnancies, DiabetesPedigreeFunction, and Age — consistent with established
+clinical risk factors.
+
+## 🚀 Run Locally
+
+```bash
+git clone https://github.com/joshikareddy-07/diabetes-risk-predictor.git
+cd diabetes-risk-predictor
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+The app will open at `http://localhost:8501`.
+
+## 📁 Repository Contents
+```
+├── app.py                  # Streamlit app
+├── logreg_model.pkl        # Trained logistic regression model
+├── scaler.pkl              # Fitted StandardScaler
+├── imputer.pkl             # Fitted SimpleImputer (median strategy)
+├── feature_names.pkl       # Ordered list of input features
+├── requirements.txt        # Python dependencies
+└── README.md
+```
+
+## ⚠️ Disclaimer
+This tool provides a statistical estimate based on a small historical
+dataset. It is **not a medical diagnosis**. Always consult a healthcare
+professional for medical advice.
